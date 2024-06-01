@@ -16,7 +16,6 @@ const Login = () => {
     useEffect(() => {
         const getToken = async () => {
             const dataUser = await getData('dataUser');
-            setDataUser(dataUser);
         };
         getToken();
     }, []);

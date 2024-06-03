@@ -1,7 +1,9 @@
 import { View, Text, ScrollView,Image } from 'react-native';
 import React from 'react';
 
-export default function ListeCompte() {
+export default function ListeCompte({props}) {
+
+
   return (
     <View>
 
@@ -11,7 +13,7 @@ export default function ListeCompte() {
         </View>
         <View className="ml-4">
           <Text className='font-medium text-lg'>Solde en Ariary en Caisse</Text>
-          <Text className='font-extrabold text-2xl'>40,000,000Ar</Text>
+          <Text className='font-extrabold text-2xl'>{props} Ar</Text>
         </View>
     </View>
     

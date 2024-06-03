@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faBars,faUser } from '@fortawesome/free-solid-svg-icons'
 import ListeCompte from '../composant/listeCompte';
 import Derniertransaction from '../composant/dernierTransaction';
+import axios from 'axios';
 
 export default function Home() {
   const router = useRouter();
@@ -36,6 +37,21 @@ export default function Home() {
     }
   }, [user]);
 
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://192.168.1.103:5500/api/dataglobal'); // Assurez-vous que cette URL correspond à l'endpoint de votre serveur Node.js
+        setData(response.data);
+        // console.log(response.data[0][9])
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <View className="bg-white flex-1">
@@ -58,7 +74,7 @@ export default function Home() {
         </View>
 
         {/* --------------------Liste Compte----------------- */}
-        <ListeCompte/>
+        <ListeCompte props={data[0][9]}/>
         {/* --------------------Derniere Transaction--------- */}
         <Derniertransaction />
       </View>

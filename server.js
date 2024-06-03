@@ -3,11 +3,43 @@ const mysql = require('mysql');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
+const { google } = require('googleapis');
+const dotenv = require('dotenv');
 
 const app = express();
 const port = 5500;
 
 app.use(bodyParser.json());
+
+dotenv.config();
+app.use(express.json());
+
+// Configuration de l'authentification OAuth2
+const auth = new google.auth.GoogleAuth({
+    keyFile: './credentials.json', // Chemin vers le fichier de clés d'authentification téléchargé depuis Google Cloud Console
+    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+  });
+  
+  // Créer un client authentifié pour accéder à Google Sheets API
+  const sheets = google.sheets({ version: 'v4', auth });
+  
+  // Endpoint pour récupérer des données depuis Google Sheets
+  app.get('/api/dataglobal', async (req, res) => {
+    try {
+      const spreadsheetId = '1JP9tduwv5M4zEB5gD1DV1al0AXvQmcmgLysbc1Jnm3A'; // Remplacez par l'ID de votre feuille de calcul
+      const range = 'Ariary!A1:L2'; // Remplacez par le nom de la feuille et la plage de cellules que vous souhaitez lire
+      const response = await sheets.spreadsheets.values.get({
+        spreadsheetId,
+        range,
+      });
+      const values = response.data.values;
+      res.json(values);
+    } catch (error) {
+      console.error('Error retrieving data from Google Sheets:', error);
+      res.status(500).json({ error: 'Failed to retrieve data from Google Sheets' });
+    }
+  });
+  
 
 const db = mysql.createConnection({
     host: 'localhost',

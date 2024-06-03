@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, Text, Image, TouchableOpacity, KeyboardAvoidingView, StyleSheet, Platform, ScrollView } from 'react-native';
 import axios from 'axios';
 import { storeData, getData } from './../../utils/services';
+import { useRouter } from 'expo-router';
 
 
 
@@ -13,6 +14,7 @@ const Login = () => {
     const [toogleLogout, setToogleLogout] = useState(false)
     const [toogleLogin, setToogleLogin] = useState(true)
 
+    const router = useRouter();
     useEffect(() => {
         const getToken = async () => {
             const dataUser = await getData('dataUser');
@@ -26,8 +28,9 @@ const Login = () => {
             storeData('dataUser', response.data);
             setDataUser(response.data);
             setToogleLogout(true);
-            setToogleLogin(false)
+            setToogleLogin(false);
             setError(null);
+            router.replace('/');
             // Stockez le token et redirigez l'utilisateur
         } catch (err) {
             console.log(err);

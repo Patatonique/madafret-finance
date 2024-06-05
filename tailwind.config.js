@@ -6,7 +6,11 @@ module.exports = {
     "./composant/**/*.{js,jsx,ts,tsx}"
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        prompt: ['Prompt-Regular', 'Prompt-Medium', 'Prompt-Bold'],
+      },
+    },
   },
   plugins: [],
 }

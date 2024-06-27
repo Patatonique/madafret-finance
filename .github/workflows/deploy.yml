@@ -1,4 +1,4 @@
-name: Deploy React and Node.js App to cPanel using FTP
+name: Deploy Node.js App to cPanel using FTP
 
 on:
   push:
@@ -22,20 +22,6 @@ jobs:
       run: |
         npm install
 
-    - name: Build React app
-      run: |
-        npm run build
-
-    - name: Deploy React app via FTP
-      uses: SamKirkland/FTP-Deploy-Action@4.3.0
-      with:
-        server: ${{ secrets.FTP_HOST }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        port: 21
-        local-dir: dist/
-        server-dir: /
-
     - name: Deploy server.js via FTP
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
@@ -43,5 +29,5 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         port: 21
-        local-dir: ./application/server.js
-        server-dir: /nodeapp/
+        local-dir: ./server.js
+        server-dir: /application/

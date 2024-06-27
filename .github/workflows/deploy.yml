@@ -22,6 +22,11 @@ jobs:
       run: |
         npm install
 
+    - name: Create temp directory and copy server.js
+      run: |
+        mkdir -p temp_deploy
+        cp server.js temp_deploy/
+
     - name: Deploy server.js via FTP
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
@@ -29,5 +34,5 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         port: 21
-        local-dir: ./server.js
+        local-dir: ./temp_deploy/
         server-dir: /application/
